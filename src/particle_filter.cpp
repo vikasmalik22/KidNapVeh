@@ -40,7 +40,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 
 	default_random_engine gen;
 
-	for (uint i = 0; i < num_particles; i++)
+	for (int i = 0; i < num_particles; i++)
 	{
 		Particle P;		
 		// TODO: Sample  and from these normal distrubtions like this: 
@@ -73,7 +73,7 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
 	std_theta = std_pos[2];
 	default_random_engine gen;
 
-	for (uint i = 0; i < num_particles; i++)
+	for (int i = 0; i < num_particles; i++)
 	{
 		double particle_x = particles[i].x;
 		double particle_y = particles[i].y;
@@ -153,7 +153,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	//   3.33
 	//   http://planning.cs.uiuc.edu/node99.html	
 
-	for (uint i = 0; i < num_particles; i++)
+	for (int i = 0; i < num_particles; i++)
 	{
 
 		double p_x = particles[i].x;
@@ -200,7 +200,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 			double mean_landmark_x;
 			double mean_landmark_y;
 
-			for (int m = 0; m < LandmarkObs_InRange.size(); m++)
+			for (uint m = 0; m < LandmarkObs_InRange.size(); m++)
 			{
 				if (transf_obs[k].id == LandmarkObs_InRange[m].id)
 				{
@@ -228,7 +228,7 @@ void ParticleFilter::resample() {
 
 	// get all of the current weights
 	vector<double> weights;
-	for (uint i = 0; i < num_particles; i++) {
+	for (int i = 0; i < num_particles; i++) {
 		weights.push_back(particles[i].weight);
 	}
 
@@ -245,7 +245,7 @@ void ParticleFilter::resample() {
 	double beta = 0.0;
 
 	// spin the resample wheel!
-	for (uint i = 0; i < num_particles; i++) {
+	for (int i = 0; i < num_particles; i++) {
 		beta += uni_weight_dist(gen) * 2.0;
 		while (beta > weights[index]) {
 			beta -= weights[index];
