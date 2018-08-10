@@ -88,4 +88,5 @@ The things the grading code is looking for are:
 2. **Performance**: your particle filter should complete execution within the time of 100 seconds.
 
 ## Result
+Number of Particles: 12
 ![Result](https://github.com/vikasmalik22/KidNapVeh/blob/master/img/Result.PNG)
