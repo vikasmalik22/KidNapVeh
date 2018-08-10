@@ -19,6 +19,8 @@
 
 using namespace std;
 
+typedef unsigned int uint;
+
 void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	// TODO: Set the number of particles. Initialize all particles to first position (based on estimates of 
 	//   x, y, theta and their uncertainties from GPS) and all weights to 1. 
@@ -38,7 +40,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 
 	default_random_engine gen;
 
-	for (int i = 0; i < num_particles; i++)
+	for (uint i = 0; i < num_particles; i++)
 	{
 		Particle P;		
 		// TODO: Sample  and from these normal distrubtions like this: 
@@ -71,7 +73,7 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
 	std_theta = std_pos[2];
 	default_random_engine gen;
 
-	for (int i = 0; i < num_particles; i++)
+	for (uint i = 0; i < num_particles; i++)
 	{
 		double particle_x = particles[i].x;
 		double particle_y = particles[i].y;
@@ -112,7 +114,7 @@ void ParticleFilter::dataAssociation(std::vector<LandmarkObs> predicted, std::ve
 	// NOTE: this method will NOT be called by the grading code. But you will probably find it useful to 
 	//   implement this method and use it as a helper during the updateWeights phase.
 
-	for (int i = 0; i < observations.size(); i++)
+	for (uint i = 0; i < observations.size(); i++)
 	{
 		LandmarkObs obs = observations[i];
 
@@ -121,7 +123,7 @@ void ParticleFilter::dataAssociation(std::vector<LandmarkObs> predicted, std::ve
 		// init id of landmark from map placeholder to be associated with the observation
 		int map_id = -1;
 
-		for (int j = 0; j < predicted.size(); j++)
+		for (uint j = 0; j < predicted.size(); j++)
 		{
 			LandmarkObs pred = predicted[j];
 
@@ -151,7 +153,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	//   3.33
 	//   http://planning.cs.uiuc.edu/node99.html	
 
-	for (int i = 0; i < num_particles; i++)
+	for (uint i = 0; i < num_particles; i++)
 	{
 
 		double p_x = particles[i].x;
@@ -161,7 +163,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 		//// create a vector to hold the map landmark locations predicted to be within sensor range of the particle
 		std::vector<LandmarkObs> LandmarkObs_InRange;
 
-		for (int l = 0; l < map_landmarks.landmark_list.size(); l++)
+		for (uint l = 0; l < map_landmarks.landmark_list.size(); l++)
 		{
 			float landmark_posx = map_landmarks.landmark_list[l].x_f;
 			float landmark_posy = map_landmarks.landmark_list[l].y_f;
@@ -178,7 +180,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 
 		std::vector<LandmarkObs> transf_obs;
 		//Transform Observations into map coordinates from car coordinates
-		for (int j = 0; j < observations.size(); j++)
+		for (uint j = 0; j < observations.size(); j++)
 		{
 			double m_x = p_x + (cos(p_theta)*observations[j].x) - (sin(p_theta)*observations[j].y);
 			double m_y = p_y + (sin(p_theta)*observations[j].x) + (cos(p_theta)*observations[j].y);
@@ -191,7 +193,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 		// reinit weight
 		particles[i].weight = 1.0;
 		
-		for (int k = 0; k < transf_obs.size(); k++)
+		for (uint k = 0; k < transf_obs.size(); k++)
 		{
 			double map_x = transf_obs[k].x;
 			double map_y = transf_obs[k].y;
@@ -226,7 +228,7 @@ void ParticleFilter::resample() {
 
 	// get all of the current weights
 	vector<double> weights;
-	for (int i = 0; i < num_particles; i++) {
+	for (uint i = 0; i < num_particles; i++) {
 		weights.push_back(particles[i].weight);
 	}
 
@@ -243,7 +245,7 @@ void ParticleFilter::resample() {
 	double beta = 0.0;
 
 	// spin the resample wheel!
-	for (int i = 0; i < num_particles; i++) {
+	for (uint i = 0; i < num_particles; i++) {
 		beta += uni_weight_dist(gen) * 2.0;
 		while (beta > weights[index]) {
 			beta -= weights[index];
